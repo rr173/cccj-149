@@ -1,0 +1,2 @@
+{"record_id": "r-exit-s1", "stream": "B", "seq": 10, "type": "door", "device": "devA", "session_id": "s1", "kind": "exit", "content": "out-1", "local": "2026-10-25T02:10:00.000"}
+{"record_id": "r-exit-s3", "stream": "B", "seq": 40, "type": "door", "device": "devC", "session_id": "s3", "kind": "exit", "content": "out-3", "local": "2026-10-25T04:30:00.000"}

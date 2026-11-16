@@ -1,0 +1,9 @@
+{
+  "streams": {
+    "S": "Europe/Berlin"
+  },
+  "files": [
+    "part2.jsonl",
+    "part1.jsonl"
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "streams": {
+    "E": "Europe/Berlin"
+  },
+  "files": [
+    "equal.jsonl"
+  ]
+}

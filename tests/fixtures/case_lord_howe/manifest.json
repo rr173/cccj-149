@@ -1,0 +1,8 @@
+{
+  "streams": {
+    "LH": "Australia/Lord_Howe"
+  },
+  "files": [
+    "lh.jsonl"
+  ]
+}

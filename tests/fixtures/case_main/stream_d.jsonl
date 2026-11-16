@@ -1,0 +1,2 @@
+{"record_id": "r-enter-s2", "stream": "D", "seq": 1, "type": "door", "device": "devB", "session_id": "s2", "kind": "enter", "content": "in-2", "local": "2026-10-25T02:40:00.000"}
+{"record_id": "r-exit-s2", "stream": "D", "seq": 2, "type": "door", "device": "devB", "session_id": "s2", "kind": "exit", "content": "out-2", "utc_ms": 1792893300000}

@@ -1,0 +1,15 @@
+{
+  "streams": {
+    "A": "Europe/Berlin",
+    "B": "Europe/Berlin",
+    "C": "Europe/Berlin",
+    "D": "Europe/Berlin"
+  },
+  "files": [
+    "stream_b.jsonl",
+    "stream_b_anchors.jsonl",
+    "stream_a.jsonl",
+    "stream_c.jsonl",
+    "stream_d.jsonl"
+  ]
+}

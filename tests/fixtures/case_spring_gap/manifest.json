@@ -1,0 +1,8 @@
+{
+  "streams": {
+    "G": "Europe/Berlin"
+  },
+  "files": [
+    "gap.jsonl"
+  ]
+}

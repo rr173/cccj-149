@@ -78,10 +78,61 @@ with Processor(dsn="host=/tmp port=55432 user=postgres dbname=usage_dev") as p:
         ...
 ```
 
+## 本地钟面时间清洗（离线，无需数据库）
+
+老门禁网关只存当地钟面标签、不写 UTC 偏移。`usage_intervals.clock_clean`
+在**不新增使用状态算法、不改动既有区间结果**的前提下，把原始标签清洗成现有
+`endpoints` 输入格式：
+
+```bash
+scripts/clock_clean.sh import manifest.json -o out/      # 校验+联合消歧+落盘
+scripts/clock_clean.sh explain manifest.json -r rec-id   # 解释单条记录
+```
+
+清单是一个 JSON：`streams`（流名 → IANA 时区）+ `files`（相对清单目录的
+JSONL）。JSONL 每行有公共字段 `record_id/stream/seq/type`；`type=door` 带
+`device/session_id/kind/content` 且恰有一个时间字段（严格无偏移的 `local`
+标签或整数 `utc_ms`）；`type=anchor` 是只带 `utc_ms` 的时钟检查点，参与流内
+先后约束但不产生端点。
+
+处理要点（与正式实现一一对应，见 `usage_intervals/clock_clean/`）：
+
+* **候选生成**：普通标签 1 个 UTC 候选，秋季回拨最多 2 个；春季跳时中不
+  存在的标签 0 候选，**整次导入失败**，不自动挪到下一小时。每个候选都要能
+  转回同一当地标签（不依赖 fold 想当然），不假设偏移变化都是 1 小时
+  （`Australia/Lord_Howe` 只有半小时回拨）。
+* **联合消歧**：跨全部文件同时考虑——同流按 `seq` 的 UTC 非递减（anchor
+  同样参与，允许同刻相等）与同 `(device,session_id)` 的 enter **严格**早于
+  exit（可跨流）。问题归约为 2-SAT（Tarjan SCC），线性时间给出每条记录在
+  **全部可行解释**中真正可能取到的 UTC 集合；不枚举解释组合，120 个相互独立
+  的双候选会话也是即时完成。无可行解释时整次失败并给出涉及的记录与关系，
+  不允许删行换可行。
+* **会话级导出/隔离**：两端会话只有两端都确定才导出；一端有歧义则两端一起
+  进隔离报告（确定的一端标记 `held_back_partner_ambiguous`，不制造假的未配对
+  会话）；原始资料只有一端且该端确定时照常导出；anchor 永不导出。
+* **交付物**：`endpoints_batch.json`（仅含现有 endpoints 字段，可直接交给
+  `load_package`）、`report.json`（原始标签/UTC、时区候选、联合约束后剩余
+  候选、决定与原因、流内与跨流关系来源）、`sources.json`（每个导出端点回到
+  原记录及全部重送物理位置）。输出目录已存在则拒绝；先完整校验分析再原子
+  落盘，失败不留下可被当成成功结果的目录。
+
+库内调用：
+
+```python
+from usage_intervals.clock_clean import clean_manifest, run_import, explain_record
+result = clean_manifest("manifest.json")          # 纯内存，无数据库
+```
+
+独立核对器 `tests/clock_clean_bruteforce.py` 对小资料穷举全部候选组合
+（不 import 正式求解器），在固定夹具与 60 个随机小样本上逐条比对可行集合、
+隔离决定和解释实例；测试与小型夹具见 `tests/run_clock_tests.py`、
+`tests/fixtures/`（各目录 `EXPECTATIONS.md` 写明人工 UTC 预期）。
+
 ## 测试与核对
 
 ```bash
-python3 -I tests/run_tests.py
+python3 -I tests/run_tests.py          # 既有 usage_intervals 全链路（含 PostgreSQL）
+python3 -I tests/run_clock_tests.py    # 钟面清洗：夹具+穷举交叉核对+随机器+规模+PG 接入
 ```
 
 每个用例都：① 手工列出期望的完整分割；② 与纯 Python 参考实现逐段比对；

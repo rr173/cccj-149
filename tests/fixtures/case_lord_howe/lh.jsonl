@@ -1,0 +1,3 @@
+{"record_id": "lh-enter", "stream": "LH", "seq": 1, "type": "door", "device": "dev", "session_id": "slh", "kind": "enter", "content": "c", "local": "2026-04-05T01:40:00.000"}
+{"record_id": "lh-anchor", "stream": "LH", "seq": 2, "type": "anchor", "utc_ms": 1775315700000}
+{"record_id": "lh-exit", "stream": "LH", "seq": 3, "type": "door", "device": "dev", "session_id": "slh", "kind": "exit", "content": "c", "local": "2026-04-05T01:50:00.000"}

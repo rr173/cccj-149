@@ -1,0 +1,2 @@
+{"record_id": "a-1", "stream": "S", "seq": 1, "type": "door", "device": "dev", "session_id": "sa", "kind": "enter", "content": "c1", "local": "2026-10-25T02:20:00.000"}
+{"record_id": "a-anchor", "stream": "S", "seq": 2, "type": "anchor", "utc_ms": 1792891200000}

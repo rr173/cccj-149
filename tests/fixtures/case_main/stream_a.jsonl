@@ -1,0 +1,3 @@
+{"record_id": "r-enter-s1", "stream": "A", "seq": 10, "type": "door", "device": "devA", "session_id": "s1", "kind": "enter", "content": "in-1", "local": "2026-10-25T02:50:00.000"}
+{"record_id": "r-anchor-a", "stream": "A", "seq": 20, "type": "anchor", "utc_ms": 1792891800000}
+{"record_id": "r-enter-s3", "stream": "A", "seq": 30, "type": "door", "device": "devC", "session_id": "s3", "kind": "enter", "content": "in-3", "local": "2026-10-25T04:00:00.000"}

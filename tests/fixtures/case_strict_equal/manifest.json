@@ -1,0 +1,8 @@
+{
+  "streams": {
+    "T": "Europe/Berlin"
+  },
+  "files": [
+    "strict.jsonl"
+  ]
+}

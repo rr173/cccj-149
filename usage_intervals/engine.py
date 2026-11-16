@@ -2,7 +2,6 @@
 
 from __future__ import annotations
 
-from .db import UsageIntervalStore
 from .model import (
     StructuralError,
     load_package,
@@ -18,9 +17,15 @@ __all__ = [
 
 
 class Processor:
-    """Thin facade combining input checks, build and the read/interpret APIs."""
+    """Thin facade combining input checks, build and the read/interpret APIs.
+
+    The PostgreSQL driver is imported lazily so purely offline tooling (for
+    example the local-clock cleaning CLI) can use this package without a
+    database client installed.
+    """
 
     def __init__(self, dsn=None, conn=None):
+        from .db import UsageIntervalStore
         self.store = UsageIntervalStore(dsn=dsn, conn=conn)
 
     def install(self):

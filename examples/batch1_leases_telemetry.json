@@ -1,0 +1,14 @@
+{
+  "leases": [
+    {"lease_id": "L1", "device": "dev1", "start": 0, "end": 50, "pauses": []},
+    {"lease_id": "L2", "device": "dev1", "start": 50, "end": 100, "pauses": [[55, 60]]}
+  ],
+  "activities": [
+    {"activity_id": "a", "device": "dev1", "lo": 45, "hi": 65}
+  ],
+  "coverage": [
+    {"source": "door", "lo": 0, "hi": 100},
+    {"source": "telemetry", "lo": 0, "hi": 70},
+    {"source": "telemetry", "lo": 80, "hi": 100}
+  ]
+}

@@ -1,0 +1,5 @@
+{
+  "endpoints": [
+    {"device": "dev1", "session_id": "s", "kind": "enter", "ts": 40, "content": "door-enter"}
+  ]
+}
